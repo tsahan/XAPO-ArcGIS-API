@@ -13,6 +13,10 @@ def addressPointstoCentroid(parcels, addPts):
     arcpy.MakeFeatureLayer_management(parcels, "parcels_lyr")
     Joined = arcpy.management.AddJoin(in_layer_or_view="parcels_lyr", in_field="PARCELSTAT", join_table=addPts, join_field="parcelIdentifier", join_type="KEEP_COMMON")
 
+    # The environment settings set by the EnvManager class are temporary and are only set for the duration of the with block. 
+    # AddressCentroidTest = "I:\\Projects\\XAPO\\xapo\\xapo.gdb\\AddressCentroidTest"
+    # with arcpy.EnvManager(outputCoordinateSystem="PROJCS['NAD_1983_StatePlane_Indiana_East_FIPS_1301_Feet',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Transverse_Mercator'],PARAMETER['False_Easting',328083.3333333333],PARAMETER['False_Northing',820208.3333333333],PARAMETER['Central_Meridian',-85.66666666666667],PARAMETER['Scale_Factor',0.9999666666666667],PARAMETER['Latitude_Of_Origin',37.5],UNIT['Foot_US',0.3048006096012192]]"):
+    
     COSBDebug.log("Converting features to points")
     arcpy.management.FeatureToPoint(in_features=Joined, out_feature_class=memAddPts, point_location="INSIDE")
 
@@ -178,6 +182,7 @@ def addressLayer(SBAddrPts, countyAddrPts, parcels, cityLimits, outputAddress, o
                                     "FullAddress(!addressLine1!, !addressLine2!, !City!, !State!, !Zip!)", "PYTHON_9.3",
                                     codeBlock_fa)
 
+    # Renaming field names to what they map to in Accela.
     renameFields(memAddrs, addressFields)
     AddPtsCenter = addressPointstoCentroid(parcels, memAddrs)
 

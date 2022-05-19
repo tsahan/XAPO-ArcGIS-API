@@ -1,4 +1,5 @@
 import arcpy
+
 # Remove all output fields you don't want.
 def dropExtraFields(loc, passFields):
     passTypes = ["OID", "Geometry", "Guid"]
@@ -13,5 +14,5 @@ def dropExtraFields(loc, passFields):
 def renameFields(loc, passFields):
     for field in arcpy.ListFields(loc):
         if field.name in passFields.keys():
-            arcpy.management.AlterField(loc, field.name, passFields[field.name])
+            arcpy.management.AlterField(loc, field.name, passFields[field.name], passFields[field.name])
     print "Renamed fields of {}".format(str(loc))

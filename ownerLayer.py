@@ -28,7 +28,8 @@ def ownerLayer(parcels, outputOwner, outSDE):
     arcpy.CalculateField_management(memOwner, "mailCountry", "\"UNITED STATES OF AMERICA\"", "PYTHON_9.3")
 
     arcpy.FeatureToPoint_management(memOwner, memOwnerPts, "INSIDE")
-
+    
+    # Renaming field names to what they map to in Accela.
     renameFields(memOwnerPts, ownerFields)
 
     try:
